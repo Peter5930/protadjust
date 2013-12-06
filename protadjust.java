@@ -44,23 +44,15 @@ public final class Protadjust extends JavaPlugin implements Listener {
 	        return;
 	    }
 	    
-	    String s = "damage is " + damage;
-	    getLogger().info(s);
-	    s = "cause is " + cause;
-	    getLogger().info(s);
-	    
 	    Player defender = (Player)entity;
 	    
-	    int damageticks = defender.getNoDamageTicks();
-	    s = "nodamageticks = " + damageticks;
-	    getLogger().info(s);	    
+	    int damageticks = defender.getNoDamageTicks();   
 	    
 	    if (!(damageticks == 0))
 	    {
 	    	//Player is currently invulnerable due to recent damage
 	    	return;
 	    }
-	    
 	    
 	    PlayerInventory inventory = defender.getInventory();
 	    int enchant_level = 0;
@@ -85,19 +77,8 @@ public final class Protadjust extends JavaPlugin implements Listener {
 	    	damage_adjustment = damage_adjustment * 0.5;
 	    }
 	    
-	    s = "damage adjustment is " + damage_adjustment;
-	    getLogger().info(s);
-	    
 	    double newhealth = Math.max(0, (defender.getHealth() - damage_adjustment));
-	    s = "defender health =" + defender.getHealth();
-	    getLogger().info(s);
 
 	    defender.setHealth(newhealth);
-	    
-	    s = "defender health =" + defender.getHealth();
-	    getLogger().info(s);
-	    s = "###################";
-	    getLogger().info(s);
 	    }
-
 }

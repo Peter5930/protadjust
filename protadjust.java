@@ -1,18 +1,25 @@
 package io.github.protadjust;
 
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Arrow;
+import org.bukkit.event.block.BlockDispenseEvent;
 
 public final class Protadjust extends JavaPlugin implements Listener {
 
@@ -23,42 +30,64 @@ public final class Protadjust extends JavaPlugin implements Listener {
         
          @EventHandler(priority = EventPriority.LOWEST)
          public void onEntityDamageEvent(EntityDamageEvent event) {
+        	 
+        
+        	 
                 
          double damage = event.getDamage();
+         
+         if (event.getCause().equals(DamageCause.POISON)){
+        	 /*Poison needs to be nerfed globally
+        	  * since prot no longer protects against it
+        	  * , otherwise it would be devastating*/
+            event.setDamage(event.getDamage() * 0.45);
+         }
 
          if (damage <= 0.0000001D) {
-         return;
-         }
+        	 return;
+        	 }
          Entity entity = event.getEntity();
          if (!(entity instanceof Player)) {
-         return;
-         }
-
+        	 return;
+        	 }
+         
          DamageCause cause = event.getCause();
 
          if (cause.equals(DamageCause.ENTITY_ATTACK)
                          ||cause.equals(DamageCause.STARVATION)
                          ||cause.equals(DamageCause.SUFFOCATION)){
-                 //ENTITY_ATTACK is any kind of melee damage
-                 //STARVATION and SUFFOCATION
-                 //are unaffected by prot, so ignore these.
-         return;
+                 /*ENTITY_ATTACK is any kind of melee damage
+                 STARVATION and SUFFOCATION
+                 are unaffected by prot, so ignore these.*/
+        	 return;
+        	 }
+         
+         if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
+        	 /*Explosions are underpowered, even against vanilla diamond,
+        	  * so they could do with being buffed.  Also, TNT is
+        	  * expensive, so it's usefulness should reflect that.*/
+        	 damage = damage * 2.0;
          }
          
-         if (cause.equals(DamageCause.POISON)){
-        	 damage = damage * 0.2;
-         }
+
         
-         Player defender = (Player)entity;
+         final Player defender = (Player)entity;
         
          int damageticks = defender.getNoDamageTicks();
         
-         if (!(damageticks == 0))
+         if (!(damageticks == 0)
+        		 && !((cause.equals(DamageCause.POISON))
+        				 || cause.equals(DamageCause.WITHER)))
          {
-                 //Player is currently invulnerable due to recent damage
+                 /*Player is currently invulnerable due to recent damage,
+                  * however, bukkit does something weird
+                  * with poison and wither, so don't return
+                  * even when invulnerable if the damage is poison
+                  * or wither.
+                  */
                  return;
          }
-        
+         
          PlayerInventory inventory = defender.getInventory();
          int enchant_level = 0;
          for (ItemStack armor : inventory.getArmorContents()) {
@@ -81,16 +110,42 @@ public final class Protadjust extends JavaPlugin implements Listener {
          if(defender.isBlocking()){
                  damage_adjustment = damage_adjustment * 0.5;
          }
+         
+         if (event.getCause().equals(DamageCause.POISON) 
+        		|| (event.getCause().equals(DamageCause.WITHER))){
+        	 damage_adjustment *= 3;
+        	 /*Again, poison and wither are weird; this solves that*/
+         }
         
          double newhealth = Math.max(0, (defender.getHealth() - damage_adjustment));
-
          defender.setHealth(newhealth);
          
          if (cause.equals(DamageCause.THORNS)){
-             PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, 1, 1);
+             PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, 150, 0);
              potionEffect.apply(defender);
          }
          
          }
+
+         @EventHandler(priority = EventPriority.LOWEST)
+         public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        	 DamageCause cause = event.getCause();
+        	 if (cause.equals(DamageCause.PROJECTILE)){
+        		 if (event.getDamager() instanceof Arrow){
+        			 Arrow arrow = (Arrow) event.getDamager();
+        			 if (arrow.getShooter() == null){
+        				 /*Arrow was fired from a dispenser
+        				  * damage of 20 is equivalent
+        				  * to a power V bow.
+        				  * 
+        				  * arrow.setFireTicks(1) makes it
+        				  * equivalent to a flame I bow
+        				  * */
+        				 event.setDamage(18);
+        				 //arrow.setFireTicks(1);
+        			 }
+        			 }
+        		 }
+        	 }
          
 }

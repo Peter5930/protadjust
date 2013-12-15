@@ -1,6 +1,8 @@
 package io.github.protadjust;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -12,14 +14,20 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.event.block.BlockDispenseEvent;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.LargeFireball;
 
 public final class Protadjust extends JavaPlugin implements Listener {
 
@@ -147,5 +155,28 @@ public final class Protadjust extends JavaPlugin implements Listener {
         			 }
         		 }
         	 }
-         
+         @EventHandler(priority = EventPriority.LOWEST)
+         public void onProjectileLaunchEvent(ProjectileLaunchEvent event){
+        	 Projectile projectile = event.getEntity();
+        	 if (projectile instanceof Arrow){
+        		 if (projectile.getShooter() == null){
+        			 /*Arrow was fired by a dispenser*/
+        			 projectile.setFireTicks(500);
+        			 
+        			 Vector vector = projectile.getVelocity();
+        			 double x = vector.getX();
+        			 double y = vector.getY();
+        			 double z = vector.getZ();
+        			 
+        			 if (y > 0.2){
+        				 y *= 3.5;
+        			 }
+
+                     projectile.setVelocity(new Vector
+                             (x * 3.5, y, z * 3.5));
+        		 }
+        	 }
+        	 
+        	 }
+
 }

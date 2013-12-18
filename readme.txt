@@ -10,4 +10,4 @@ Protadjust changes
 
 -  Arrow dispensers have been buffed so that they fire arrows at a velocity 3.5 times higher than previously, increasing the range of a dispenser placed at head height from 13 blocks to 40 blocks.
 
--  When damage is recieved from attacking a person wearing thorns armour, it results in wither I for 150 ticks.  (Going to need a lot of combat testing to balancing this)
+-  When damage is recieved from attacking a person wearing thorns armour, it results in wither I for 150 ticks.  (Going to need a lot of combat testing to balance this.)

@@ -1,13 +1,9 @@
 package io.github.protadjust;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,14 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.SmallFireball;
-import org.bukkit.event.block.BlockDispenseEvent;
-import org.bukkit.entity.Explosive;
-import org.bukkit.entity.LargeFireball;
 
 public final class Protadjust extends JavaPlugin implements Listener {
 
@@ -44,12 +34,6 @@ public final class Protadjust extends JavaPlugin implements Listener {
                 
          double damage = event.getDamage();
          
-         if (event.getCause().equals(DamageCause.POISON)){
-        	 /*Poison needs to be nerfed globally
-        	  * since prot no longer protects against it
-        	  * , otherwise it would be devastating*/
-            event.setDamage(event.getDamage() * 0.45);
-         }
 
          if (damage <= 0.0000001D) {
         	 return;
@@ -70,7 +54,14 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 return;
         	 }
          
-         if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
+         else if (cause.equals(DamageCause.POISON)){
+        	 /*Poison needs to be nerfed globally
+        	  * since prot no longer protects against it
+        	  * , otherwise it would be devastating*/
+            event.setDamage(event.getDamage() * 0.45);
+         }
+         
+         else if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
         	 /*Explosions are underpowered, even against vanilla diamond,
         	  * so they could do with being buffed.  Also, TNT is
         	  * expensive, so it's usefulness should reflect that.*/
@@ -124,14 +115,14 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 damage_adjustment *= 3;
         	 /*Again, poison and wither are weird; this solves that*/
          }
+         else if (cause.equals(DamageCause.THORNS)){
+             PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, 150, 0);
+             potionEffect.apply(defender);
+         }
         
          double newhealth = Math.max(0, (defender.getHealth() - damage_adjustment));
          defender.setHealth(newhealth);
          
-         if (cause.equals(DamageCause.THORNS)){
-             PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, 150, 0);
-             potionEffect.apply(defender);
-         }
          
          }
 
@@ -150,7 +141,6 @@ public final class Protadjust extends JavaPlugin implements Listener {
         				  * equivalent to a flame I bow
         				  * */
         				 event.setDamage(18);
-        				 //arrow.setFireTicks(1);
         			 }
         			 }
         		 }
@@ -176,7 +166,9 @@ public final class Protadjust extends JavaPlugin implements Listener {
                              (x * 3.5, y, z * 3.5));
         		 }
         	 }
-        	 
+        		 
         	 }
-
+         
+         
+ 
 }

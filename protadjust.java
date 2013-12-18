@@ -143,7 +143,7 @@ public final class Protadjust extends JavaPlugin implements Listener {
         			 Arrow arrow = (Arrow) event.getDamager();
         			 if (arrow.getShooter() == null){
         				 /*Arrow was fired from a dispenser
-        				  * damage of 20 is equivalent
+        				  * damage of 18 is equivalent
         				  * to a power V bow.
         				  * 
         				  * arrow.setFireTicks(1) makes it

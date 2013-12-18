@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,16 +21,20 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Arrow;
 
 public final class Protadjust extends JavaPlugin implements Listener {
+	
+	private FileConfiguration config_;
 
          public void onEnable()
          {
-         this.getServer().getPluginManager().registerEvents(this, this);
+             ConfigManager cm= new ConfigManager(this);
+             cm.initconfig(getConfig());
+             FileConfiguration con = getConfig();
+             config_=con;
+             this.getServer().getPluginManager().registerEvents(this, this);
          }
         
          @EventHandler(priority = EventPriority.LOWEST)
          public void onEntityDamageEvent(EntityDamageEvent event) {
-        	 
-        
         	 
                 
          double damage = event.getDamage();
@@ -57,8 +62,9 @@ public final class Protadjust extends JavaPlugin implements Listener {
          else if (cause.equals(DamageCause.POISON)){
         	 /*Poison needs to be nerfed globally
         	  * since prot no longer protects against it
-        	  * , otherwise it would be devastating*/
-            event.setDamage(event.getDamage() * 0.45);
+        	  * , otherwise it would be devastating
+        	  * default  0.45*/
+            event.setDamage(event.getDamage() * config_.getDouble(poison_global_modifier));
          }
          
          else if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
@@ -68,8 +74,7 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 damage = damage * 2.0;
          }
          
-
-        
+		 
          final Player defender = (Player)entity;
         
          int damageticks = defender.getNoDamageTicks();
@@ -158,9 +163,22 @@ public final class Protadjust extends JavaPlugin implements Listener {
         			 double y = vector.getY();
         			 double z = vector.getZ();
         			 
+        			 /*Makes dispensers less accurate*/
         			 if (y > 0.2){
         				 y *= 3.5;
-        			 }
+        				 x *= 1.5;
+        				 z *= 1.5;
+        				 }
+        			 else if (x > z){
+        				 x *= 3;
+        				 getLogger().info("" + y);
+        				 }
+        			 else{
+        				 z *= 3;
+        				 getLogger().info("" + y);
+        				 }
+        			 
+        			 /*Makes the arrow travel faster*/
 
                      projectile.setVelocity(new Vector
                              (x * 3.5, y, z * 3.5));

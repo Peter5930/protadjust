@@ -1,0 +1,17 @@
+# Author: Peter5930
+# Github located here: https://github.com/Peter5930/protadjust
+
+
+poison_damage_global_modifier: 0.45
+explosion_damage_global_modifier: 2.0
+prot_1_modifier: 0.03
+prot_2_modifier: 0.05
+prot_3_modifier: 0.09
+prot_4_modifier: 0.115
+poison_prot_modifier: 3.0
+buff_dispenser_damage: true
+dispenser_damage: 18
+buff_dispenser_velocity: true
+dispenser_flame_arrows_ticks: 500
+dispenser_arrow_velocity_multiplier: 3.5
+dispenser_arrow_spread_multiplier: 3.0

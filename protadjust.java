@@ -121,8 +121,7 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 /*Again, poison and wither are weird; this solves that*/
          }
          else if (cause.equals(DamageCause.THORNS)){
-        	 PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, 150, 0);
-        	 //PotionEffect potionEffect = new PotionEffect(PotionEffectType.WITHER, config_.getInt("thorns_effect_duration"), config_.getInt("thorns_effect_intensity"));
+        	 PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(config_.getString("thorns_effect_type")), config_.getInt("thorns_effect_duration"), config_.getInt("thorns_effect_intensity"));
         	 potionEffect.apply(defender);
          }
         

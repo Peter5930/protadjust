@@ -16,4 +16,3 @@ protadjust
 Known issues:
 
 -  Lava isn't doing as much damage as it should to players in prot.
--  Config doesn't have options for changing the status effect, duration and amplitude of effect from thorns damage.

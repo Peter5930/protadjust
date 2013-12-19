@@ -44,13 +44,13 @@ public class ConfigManager {
         //    config.set("thorns_effect_type", PotionEffectType.WITHER);
         //}
         
-        if (!config.contains("thorns_effect_duration")){
-            config.set("thorns_effect_duration", 150);
-        }
+        //if (!config.contains("thorns_effect_duration")){
+        //    config.set("thorns_effect_duration", 150);
+        //}
         
-        if (!config.contains("thorns_effect_intensity")){
-            config.set("thorns_effect_intensity", 0);
-        }
+        //if (!config.contains("thorns_effect_intensity")){
+        //    config.set("thorns_effect_intensity", 0);
+        //}
         
         if (!config.contains("buff_dispenser_damage")){
             config.set("buff_dispenser_damage", true);

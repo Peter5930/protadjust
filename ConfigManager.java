@@ -2,6 +2,7 @@ package io.github.protadjust;
 
 import org.bukkit.configuration.file.FileConfiguration;
 //import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionEffectType;
 
 public class ConfigManager {
 	private Protadjust plugin;
@@ -40,17 +41,17 @@ public class ConfigManager {
             config.set("poison_prot_modifier", 3.0);
         }
         
-        //if (!config.contains("thorns_effect_type")){
-        //    config.set("thorns_effect_type", PotionEffectType.WITHER);
-        //}
+        if (!config.contains("thorns_effect_type")){
+            config.set("thorns_effect_type", PotionEffectType.WITHER);
+        }
         
-        //if (!config.contains("thorns_effect_duration")){
-        //    config.set("thorns_effect_duration", 150);
-        //}
+        if (!config.contains("thorns_effect_duration")){
+            config.set("thorns_effect_duration", 150);
+        }
         
-        //if (!config.contains("thorns_effect_intensity")){
-        //    config.set("thorns_effect_intensity", 0);
-        //}
+        if (!config.contains("thorns_effect_intensity")){
+            config.set("thorns_effect_intensity", 0);
+        }
         
         if (!config.contains("buff_dispenser_damage")){
             config.set("buff_dispenser_damage", true);

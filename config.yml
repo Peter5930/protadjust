@@ -15,3 +15,6 @@ buff_dispenser_velocity: true
 dispenser_flame_arrows_ticks: 500
 dispenser_arrow_velocity_multiplier: 3.5
 dispenser_arrow_spread_multiplier: 3.0
+thorns_effect_type: !!org.bukkit.potion.PotionEffectTypeWrapper {}
+thorns_effect_duration: 150
+thorns_effect_intensity: 0

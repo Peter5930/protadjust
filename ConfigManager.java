@@ -1,8 +1,6 @@
 package io.github.protadjust;
 
 import org.bukkit.configuration.file.FileConfiguration;
-//import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionEffectType;
 
 public class ConfigManager {
 	private Protadjust plugin;
@@ -42,8 +40,8 @@ public class ConfigManager {
         }
         
         if (!config.contains("thorns_effect_type")){
-            config.set("thorns_effect_type", PotionEffectType.WITHER);
-        }
+        	config.set("thorns_effect_type", "WITHER");
+        	} 
         
         if (!config.contains("thorns_effect_duration")){
             config.set("thorns_effect_duration", 150);

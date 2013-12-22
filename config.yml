@@ -9,7 +9,7 @@ prot_2_modifier: 0.05
 prot_3_modifier: 0.09
 prot_4_modifier: 0.115
 poison_prot_modifier: 3.0
-thorns_effect_type: Thorns
+thorns_effect_type: WITHER
 thorns_effect_duration: 150
 thorns_effect_intensity: 0
 buff_dispenser_damage: true

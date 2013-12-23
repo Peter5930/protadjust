@@ -144,7 +144,7 @@ public final class Protadjust extends JavaPlugin implements Listener {
 							  * damage of 18 is equivalent
 							  * to a power V bow.
 							  * */
-							 event.setDamage(config_.getInt("dispenser_damage"));
+							 event.setDamage(config_.getInt("dispenser_arrow_damage"));
         				 	}
         			 	}
         			 }

@@ -37,6 +37,10 @@ public final class Protadjust extends JavaPlugin implements Listener {
         
          @EventHandler(priority = EventPriority.LOWEST)
          public void onEntityDamageEvent(EntityDamageEvent event) {
+        	 
+        	 if (event.isCancelled()){
+        		 return;
+        	 }
                 
          double damage = event.getDamage();
          
@@ -49,44 +53,19 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 return;
         	 }
          
-         DamageCause cause = event.getCause();
-
-         //if (cause.equals(DamageCause.STARVATION)
-           //              ||cause.equals(DamageCause.SUFFOCATION)){
-                 /*ENTITY_ATTACK is any kind of melee damage
-                 STARVATION and SUFFOCATION
-                 are unaffected by prot, so ignore these.*/
-        	 //return;
-        	// }
-         
-        // else if (cause.equals(DamageCause.POISON)){
-        	 /*Poison needs to be nerfed globally
-        	  * since prot no longer protects against it
-        	  * , otherwise it would be devastating*/
-         //   event.setDamage(event.getDamage() * config_.getDouble("poison_damage_global_modifier"));
-        // }
-         
-        // else if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
-        	 /*Explosions are underpowered, even against vanilla diamond,
-        	  * so they could do with being buffed.  Also, TNT is
-        	  * expensive, so it's usefulness should reflect that.*/
-        //	 damage = damage * config_.getDouble("explosion_damage_global_modifier");
-         //}
-         
-         if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
-        	 /*Explosions are underpowered, even against vanilla diamond,
-        	  * so they could do with being buffed.  Also, TNT is
-        	  * expensive, so it's usefulness should reflect that.*/
-        	 damage = damage * config_.getDouble("explosion_damage_global_modifier");
-         }
-         
-         double damageTypeProtModifier = getDamageTypeProtModifier(cause);
-		 
          final Player defender = (Player)entity;
          
          if (defender.getGameMode() == GameMode.CREATIVE){
         	 return;
          }
+         
+         DamageCause cause = event.getCause();
+         
+         double damageTypeGlobalModifier = getDamageTypeGlobalModifier(cause);
+         double damageTypeProtModifier = getDamageTypeProtModifier(cause);
+         
+         damage = damage * damageTypeGlobalModifier;
+         event.setDamage(damage);
         
          int damageticks = defender.getNoDamageTicks();
         
@@ -133,19 +112,13 @@ public final class Protadjust extends JavaPlugin implements Listener {
                  damage_adjustment = damage_adjustment * 0.5;
          }
          
-         if (event.getCause().equals(DamageCause.POISON) 
-        		|| (event.getCause().equals(DamageCause.WITHER))){
-        	 damage_adjustment *= config_.getDouble("poison_prot_modifier");
-        	 /*Again, poison and wither are weird; this solves that*/
-         }
-         else if (cause.equals(DamageCause.THORNS)){
+         if (cause.equals(DamageCause.THORNS)){
         	 PotionEffect potionEffect = new PotionEffect(PotionEffectType.getByName(config_.getString("thorns_effect_type")), config_.getInt("thorns_effect_duration"), config_.getInt("thorns_effect_intensity"));
         	 potionEffect.apply(defender);
          }
         
-         double newhealth = Math.max(0, (defender.getHealth() - damage_adjustment));
+         double newhealth = Math.max(0.2, (defender.getHealth() - damage_adjustment));
          defender.setHealth(newhealth);
-
          }
          
          public double getDamageTypeProtModifier(DamageCause cause){
@@ -173,6 +146,34 @@ public final class Protadjust extends JavaPlugin implements Listener {
 			default:
 				return 1.0;
         	 }
+         }
+         
+         public double getDamageTypeGlobalModifier(DamageCause cause){
+        	 switch (cause){
+        	 case BLOCK_EXPLOSION: return config_.getDouble("BLOCK_EXPLOSION_global_modifier");
+        	 case CONTACT: return config_.getDouble("CONTACT_global_modifier");
+        	 case DROWNING: return config_.getDouble("DROWNING_global_modifier");
+        	 case ENTITY_ATTACK: return config_.getDouble("ENTITY_ATTACK_global_modifier");
+        	 case ENTITY_EXPLOSION: return config_.getDouble("ENTITY_EXPLOSION_global_modifier");
+        	 case FALL: return config_.getDouble("FALL_global_modifier");
+        	 case FALLING_BLOCK: return config_.getDouble("FALLING_BLOCK_global_modifier");
+        	 case FIRE: return config_.getDouble("FIRE_global_modifier");
+        	 case FIRE_TICK: return config_.getDouble("FIRE_TICK_global_modifier");
+        	 case LAVA: return config_.getDouble("LAVA_global_modifier");
+        	 case LIGHTNING: return config_.getDouble("LIGHTNING_global_modifier");
+        	 case MAGIC: return config_.getDouble("MAGIC_global_modifier");
+        	 case MELTING: return config_.getDouble("MELTING_global_modifier");
+        	 case POISON: return config_.getDouble("POISON_global_modifier");
+        	 case PROJECTILE: return config_.getDouble("PROJECTILE_global_modifier");
+        	 case STARVATION: return config_.getDouble("STARVATION_global_modifier");
+        	 case SUFFOCATION: return config_.getDouble("SUFFOCATION_global_modifier");
+        	 case SUICIDE: return config_.getDouble("SUICIDE_global_modifier");
+        	 case THORNS: return config_.getDouble("THORNS_global_modifier");
+        	 case VOID: return config_.getDouble("VOID_global_modifier");
+			default:
+				return 1.0;
+        	 }
+        	 
          }
 
          @EventHandler(priority = EventPriority.LOWEST)
@@ -230,7 +231,5 @@ public final class Protadjust extends JavaPlugin implements Listener {
                      }
         		 }
         	 }
-         
-         
- 
+
 }

@@ -55,24 +55,122 @@ public class ConfigManager {
             config.set("buff_dispenser_damage", true);
         }
         
-        if (!config.contains("dispenser_damage")){
-            config.set("dispenser_damage", 18);
+        /*18 is roughly equivalent to a power V bow*/
+        
+        if (!config.contains("dispenser_arrow_damage")){
+            config.set("dispenser_arrow_damage", 18);
         }      
         
-        if (!config.contains("buff_dispenser_velocity")){
-        	config.set("buff_dispenser_velocity", true);
-        }
+        /*If set above 0, arrows fired from dispensers will be on
+         * fire and will set players on fire when they hit, if
+         * the player is hit before the fire ticks run out.*/
         
         if (!config.contains("dispenser_flame_arrows_ticks")){
         	config.set("dispenser_flame_arrows_ticks", 500);
         }
         
+        /*Velocity determines range.  Default range is about 13 blocks
+         * for a dispenser at head height.  At 3.5 times velocity, the
+         * range is about 40 blocks.*/
+        
         if (!config.contains("dispenser_arrow_velocity_multiplier")){
         	config.set("dispenser_arrow_velocity_multiplier", 3.5);
         }
         
+        /*Values above 1.0 will cause arrows fired from dispensers to
+         * be less accurate, allowing each dispenser to cover a wider
+         * area and making it easier to reduce blind spots in 
+         * dispenser-based defences.*/
         if (!config.contains("dispenser_arrow_spread_multiplier")){
         	config.set("dispenser_arrow_spread_multiplier", 3.0);
+        }
+        
+        /*Damage type modifiers specific to prot armour; values above 1.0 will
+         * make prot weaker to that damage type and values below 1.0 will
+         * make prot stronger to that damage type.*/
+        
+        if (!config.contains("BLOCK_EXPLOSION_prot_modifier")){
+        	config.set("BLOCK_EXPLOSION_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("CONTACT_prot_modifier")){
+        	config.set("CONTACT_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("BLOCK_EXPLOSION_prot_modifier")){
+        	config.set("BLOCK_EXPLOSION_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("DROWNING_prot_modifier")){
+        	config.set("DROWNING_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("ENTITY_ATTACK_prot_modifier")){
+        	config.set("ENTITY_ATTACK_prot_modifier", 0.0);
+        }
+        
+        if (!config.contains("ENTITY_EXPLOSION_prot_modifier")){
+        	config.set("ENTITY_EXPLOSION_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("FALL_prot_modifier")){
+        	config.set("FALL_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("FALLING_BLOCK_prot_modifier")){
+        	config.set("FALLING_BLOCK_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("FIRE_prot_modifier")){
+        	config.set("FIRE_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("FIRE_TICK_prot_modifier")){
+        	config.set("FIRE_TICK_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("LAVA_prot_modifier")){
+        	config.set("LAVA_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("LIGHTNING_prot_modifier")){
+        	config.set("LIGHTNING_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("MAGIC_prot_modifier")){
+        	config.set("MAGIC_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("MELTING_prot_modifier")){
+        	config.set("MELTING_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("POISON_prot_modifier")){
+        	config.set("POISON_prot_modifier", 3.0);
+        }
+        
+        if (!config.contains("PROJECTILE_prot_modifier")){
+        	config.set("PROJECTILE_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("STARVATION_prot_modifier")){
+        	config.set("STARVATION_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("SUFFOCATION_prot_modifier")){
+        	config.set("SUFFOCATION_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("SUICIDE_prot_modifier")){
+        	config.set("SUICIDE_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("THORNS_prot_modifier")){
+        	config.set("THORNS_prot_modifier", 1.0);
+        }
+        
+        if (!config.contains("VOID_prot_modifier")){
+        	config.set("VOID_prot_modifier", 1.0);
         }
         
         plugin.saveConfig();

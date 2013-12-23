@@ -13,6 +13,4 @@ protadjust
 
 -  When damage is recieved from attacking a person wearing thorns armour, it results in wither I for 150 ticks.  (Going to need a lot of combat testing to balancing this)
 
-Known issues:
-
--  Lava isn't doing as much damage as it should to players in prot.
+-  Solved the issue where lava wasn't doing enough damage to people in prot.

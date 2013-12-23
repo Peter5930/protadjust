@@ -19,6 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.bukkit.GameMode;
 
 
 public final class Protadjust extends JavaPlugin implements Listener {
@@ -36,7 +37,6 @@ public final class Protadjust extends JavaPlugin implements Listener {
         
          @EventHandler(priority = EventPriority.LOWEST)
          public void onEntityDamageEvent(EntityDamageEvent event) {
-        	 
                 
          double damage = event.getDamage();
          
@@ -76,6 +76,10 @@ public final class Protadjust extends JavaPlugin implements Listener {
          
 		 
          final Player defender = (Player)entity;
+         
+         if (defender.getGameMode() == GameMode.CREATIVE){
+        	 return;
+         }
         
          int damageticks = defender.getNoDamageTicks();
         

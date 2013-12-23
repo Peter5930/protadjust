@@ -87,13 +87,20 @@ public final class Protadjust extends JavaPlugin implements Listener {
         		 && !((cause.equals(DamageCause.POISON))
         				 || cause.equals(DamageCause.WITHER)))
          {
+        	 if (damageticks == 10 && cause.equals(DamageCause.LAVA)){
+        		 //pass
+        	 }
+        	 else {
+        		 return;
+        	 }
                  /*Player is currently invulnerable due to recent damage,
                   * however, bukkit does something weird
                   * with poison and wither, so don't return
                   * even when invulnerable if the damage is poison
                   * or wither.
-                  */
-                 return;
+                  * 
+                  * This damageticks check also prevents lava from killing the player
+                  * nearly instantly if they're wearing prot.*/
          }
          
          PlayerInventory inventory = defender.getInventory();

@@ -51,29 +51,36 @@ public final class Protadjust extends JavaPlugin implements Listener {
          
          DamageCause cause = event.getCause();
 
-         if (cause.equals(DamageCause.ENTITY_ATTACK)
-                         ||cause.equals(DamageCause.STARVATION)
-                         ||cause.equals(DamageCause.SUFFOCATION)){
+         //if (cause.equals(DamageCause.STARVATION)
+           //              ||cause.equals(DamageCause.SUFFOCATION)){
                  /*ENTITY_ATTACK is any kind of melee damage
                  STARVATION and SUFFOCATION
                  are unaffected by prot, so ignore these.*/
-        	 return;
-        	 }
+        	 //return;
+        	// }
          
-         else if (cause.equals(DamageCause.POISON)){
+        // else if (cause.equals(DamageCause.POISON)){
         	 /*Poison needs to be nerfed globally
         	  * since prot no longer protects against it
         	  * , otherwise it would be devastating*/
-            event.setDamage(event.getDamage() * config_.getDouble("poison_damage_global_modifier"));
-         }
+         //   event.setDamage(event.getDamage() * config_.getDouble("poison_damage_global_modifier"));
+        // }
          
-         else if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
+        // else if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
+        	 /*Explosions are underpowered, even against vanilla diamond,
+        	  * so they could do with being buffed.  Also, TNT is
+        	  * expensive, so it's usefulness should reflect that.*/
+        //	 damage = damage * config_.getDouble("explosion_damage_global_modifier");
+         //}
+         
+         if (cause.equals(DamageCause.BLOCK_EXPLOSION)){
         	 /*Explosions are underpowered, even against vanilla diamond,
         	  * so they could do with being buffed.  Also, TNT is
         	  * expensive, so it's usefulness should reflect that.*/
         	 damage = damage * config_.getDouble("explosion_damage_global_modifier");
          }
          
+         double damageTypeProtModifier = getDamageTypeProtModifier(cause);
 		 
          final Player defender = (Player)entity;
          
@@ -113,13 +120,13 @@ public final class Protadjust extends JavaPlugin implements Listener {
          //make the armour equivalent to vanilla diamond for
          //damage types other than ENTITY_ATTACK
          if (enchant_level >= 3 && enchant_level <= 6) {
-                 damage_adjustment = damage * config_.getDouble("prot_1_modifier"); //adjust as necessary
+                 damage_adjustment = damage * config_.getDouble("prot_1_modifier") * damageTypeProtModifier;
          } else if (enchant_level >= 7 && enchant_level <= 10) {
-                 damage_adjustment = damage * config_.getDouble("prot_2_modifier");
+                 damage_adjustment = damage * config_.getDouble("prot_2_modifier") * damageTypeProtModifier;
          } else if (enchant_level >= 11 && enchant_level <= 14) {
-                 damage_adjustment = damage * config_.getDouble("prot_3_modifier");
+                 damage_adjustment = damage * config_.getDouble("prot_3_modifier") * damageTypeProtModifier;
          } else if (enchant_level >= 15) {
-                 damage_adjustment = damage * config_.getDouble("prot_4_modifier");
+                 damage_adjustment = damage * config_.getDouble("prot_4_modifier") * damageTypeProtModifier;
          }
         
          if(defender.isBlocking()){
@@ -139,6 +146,33 @@ public final class Protadjust extends JavaPlugin implements Listener {
          double newhealth = Math.max(0, (defender.getHealth() - damage_adjustment));
          defender.setHealth(newhealth);
 
+         }
+         
+         public double getDamageTypeProtModifier(DamageCause cause){
+        	 switch (cause){
+        	 case BLOCK_EXPLOSION: return config_.getDouble("BLOCK_EXPLOSION_prot_modifier");
+        	 case CONTACT: return config_.getDouble("CONTACT_prot_modifier");
+        	 case DROWNING: return config_.getDouble("DROWNING_prot_modifier");
+        	 case ENTITY_ATTACK: return config_.getDouble("ENTITY_ATTACK_prot_modifier");
+        	 case ENTITY_EXPLOSION: return config_.getDouble("ENTITY_EXPLOSION_prot_modifier");
+        	 case FALL: return config_.getDouble("FALL_prot_modifier");
+        	 case FALLING_BLOCK: return config_.getDouble("FALLING_BLOCK_prot_modifier");
+        	 case FIRE: return config_.getDouble("FIRE_prot_modifier");
+        	 case FIRE_TICK: return config_.getDouble("FIRE_TICK_prot_modifier");
+        	 case LAVA: return config_.getDouble("LAVA_prot_modifier");
+        	 case LIGHTNING: return config_.getDouble("LIGHTNING_prot_modifier");
+        	 case MAGIC: return config_.getDouble("MAGIC_prot_modifier");
+        	 case MELTING: return config_.getDouble("MELTING_prot_modifier");
+        	 case POISON: return config_.getDouble("POISON_prot_modifier");
+        	 case PROJECTILE: return config_.getDouble("PROJECTILE_prot_modifier");
+        	 case STARVATION: return config_.getDouble("STARVATION_prot_modifier");
+        	 case SUFFOCATION: return config_.getDouble("SUFFOCATION_prot_modifier");
+        	 case SUICIDE: return config_.getDouble("SUICIDE_prot_modifier");
+        	 case THORNS: return config_.getDouble("THORNS_prot_modifier");
+        	 case VOID: return config_.getDouble("VOID_prot_modifier");
+			default:
+				return 1.0;
+        	 }
          }
 
          @EventHandler(priority = EventPriority.LOWEST)

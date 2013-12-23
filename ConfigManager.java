@@ -11,13 +11,6 @@ public class ConfigManager {
 		config.options().header("Author: Peter5930\n"
                 + "Github located here: https://github.com/Peter5930/protadjust\r\n"
                 + "\r\n");
-        if (!config.contains("poison_damage_global_modifier")){
-            config.set("poison_damage_global_modifier", 0.45);
-        }
-        
-        if (!config.contains("explosion_damage_global_modifier")){
-            config.set("explosion_damage_global_modifier", 2.0);
-        }
         
         if (!config.contains("prot_1_modifier")){
             config.set("prot_1_modifier", 0.03);
@@ -33,10 +26,6 @@ public class ConfigManager {
         
         if (!config.contains("prot_4_modifier")){
             config.set("prot_4_modifier", 0.115);
-        }
-        
-        if (!config.contains("poison_prot_modifier")){
-            config.set("poison_prot_modifier", 3.0);
         }
         
         if (!config.contains("thorns_effect_type")){
@@ -105,7 +94,7 @@ public class ConfigManager {
         }
         
         if (!config.contains("ENTITY_EXPLOSION_global_modifier")){
-        	config.set("ENTITY_EXPLOSION_global_modifier", 1.0);
+        	config.set("ENTITY_EXPLOSION_global_modifier", 2.0);
         }
         
         if (!config.contains("FALL_global_modifier")){

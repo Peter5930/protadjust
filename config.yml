@@ -13,7 +13,7 @@ thorns_effect_type: WITHER
 thorns_effect_duration: 150
 thorns_effect_intensity: 0
 buff_dispenser_damage: true
-dispenser_damage: 18
+dispenser_arrow_damage: 18
 buff_dispenser_velocity: true
 dispenser_flame_arrows_ticks: 500
 dispenser_arrow_velocity_multiplier: 3.5

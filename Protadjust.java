@@ -1,4 +1,4 @@
-package io.github.protadjust;
+package protadjust;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;

@@ -44,11 +44,15 @@ public class ConfigManager {
             config.set("buff_dispenser_damage", true);
         }
         
-        /*18 is roughly equivalent to a power V bow*/
+        /*16 to 20 is roughly equivalent to a power V bow*/
         
-        if (!config.contains("dispenser_arrow_damage")){
-            config.set("dispenser_arrow_damage", 18);
+        if (!config.contains("dispenser_arrow_damage_min")){
+            config.set("dispenser_arrow_damage_min", 16);
         }      
+
+        if (!config.contains("dispenser_arrow_damage_max")){
+            config.set("dispenser_arrow_damage_max", 20);
+        }
         
         /*If set above 0, arrows fired from dispensers will be on
          * fire and will set players on fire when they hit, if
@@ -94,7 +98,7 @@ public class ConfigManager {
         }
         
         if (!config.contains("ENTITY_EXPLOSION_global_modifier")){
-        	config.set("ENTITY_EXPLOSION_global_modifier", 2.0);
+        	config.set("ENTITY_EXPLOSION_global_modifier", 1.0);
         }
         
         if (!config.contains("FALL_global_modifier")){
@@ -207,7 +211,7 @@ public class ConfigManager {
         }
         
         if (!config.contains("MAGIC_prot_modifier")){
-        	config.set("MAGIC_prot_modifier", 1.0);
+        	config.set("MAGIC_prot_modifier", 5.5);
         }
         
         if (!config.contains("MELTING_prot_modifier")){
@@ -215,7 +219,7 @@ public class ConfigManager {
         }
         
         if (!config.contains("POISON_prot_modifier")){
-        	config.set("POISON_prot_modifier", 3.0);
+        	config.set("POISON_prot_modifier", 5.0);
         }
         
         if (!config.contains("PROJECTILE_prot_modifier")){

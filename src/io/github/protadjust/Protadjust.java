@@ -1,5 +1,7 @@
 package io.github.protadjust;
 
+import java.util.Random;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
@@ -117,7 +119,13 @@ public final class Protadjust extends JavaPlugin implements Listener {
         	 potionEffect.apply(defender);
          }
         
-         double newhealth = Math.max(0.2, (defender.getHealth() - damage_adjustment));
+         double newhealth = 0.0;
+         if (cause.equals(DamageCause.POISON)){
+        	 newhealth = Math.max(1.0, (defender.getHealth() - damage_adjustment));
+         }
+         else{
+        	 newhealth = Math.max(0.0, (defender.getHealth() - damage_adjustment));
+         }
          defender.setHealth(newhealth);
          }
          
@@ -186,11 +194,15 @@ public final class Protadjust extends JavaPlugin implements Listener {
 						 Arrow arrow = (Arrow) event.getDamager();
 						 if (arrow.getShooter() == null){
 
-							 /*Arrow was fired from a dispenser
-							  * damage of 18 is equivalent
+							 /*Arrow was fired from a dispenser.
+							  * Damage of 16-20 is equivalent
 							  * to a power V bow.
 							  * */
-							 event.setDamage(config_.getInt("dispenser_arrow_damage"));
+							 double start = config_.getDouble("dispenser_arrow_damage_min");
+							 double end = config_.getDouble("dispenser_arrow_damage_max");
+							 double random = new Random().nextDouble();
+							 double result = start + (random * (end - start));
+							 event.setDamage(result);
         				 	}
         			 	}
         			 }

@@ -44,9 +44,9 @@ FIRE_prot_modifier: 1.0
 FIRE_TICK_prot_modifier: 1.0
 LAVA_prot_modifier: 1.0
 LIGHTNING_prot_modifier: 1.0
-MAGIC_prot_modifier: 1.0
+MAGIC_prot_modifier: 5.5
 MELTING_prot_modifier: 1.0
-POISON_prot_modifier: 3.0
+POISON_prot_modifier: 5.0
 PROJECTILE_prot_modifier: 1.0
 STARVATION_prot_modifier: 1.0
 SUFFOCATION_prot_modifier: 1.0
